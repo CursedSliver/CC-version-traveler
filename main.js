@@ -39,7 +39,7 @@ function importSave(saveText) {
         const decoded = b64_to_utf8(b64);
         const version = decoded.split('||')[0];
         if (!version) { throw new Error('Invalid save'); }
-        l('curVersion').textContent = 'Current version: v' + version;
+        l('curVersion').textContent = 'Current version: v' + version + (PLATFORMS_VERSION_LIST_REVERSE_MAP[version]?(' ('+oxfordsJoin(PLATFORMS_VERSION_LIST_REVERSE_MAP[version], s => PLATFORMS_VERSION_NAMES[s])+')'):'');
         
         const select = l('versionSelect');
         let selectStr = ''
