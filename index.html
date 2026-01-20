@@ -10,7 +10,7 @@
     <h1>CC version traveler</h1>
     <div id="importSave">
         <h3>Input save below to change its game version.</h3>
-        <p>If you find yourself unable to port your progress between platforms due to version issues, this will allow you to do so.<br>Safe for web to steam conversion and live-beta conversion.</p>
+        <p>If you find yourself unable to port your progress between platforms due to version issues, this will allow you to do so.<br>Safe for various platform conversions and live-beta conversions.</p>
         <textarea id="importSaveTextArea">
 
         </textarea>
@@ -29,11 +29,9 @@
         <span>Choose version: </span>
         <select id="versionSelect"></select>
         <button id="confirmConvert" onclick="exportSaveFromVersionSelect()">Convert version</button>
-        <button id="quickConvert" onclick="exportSave(STEAM_VERSION)" style="display: none;">
-            Convert web (<span id="webVer"></span>) to steam (<span id="steamVer"></span>)
-        </button>
-        <br>
-        <br>
+        <div id="quickConverts">
+
+        </div>
         <div id="convertSuccess"></div>
         <br>
         <b><div id="errorExporting" class="errorText" style="display: none;"></div></b>
@@ -42,6 +40,8 @@
     </div>
 
     <p><b>Warning: changing version back too much may lead to unknown bugs and save corruption!</b></p>
+
+    <small>Made by CursedSliver. For any issues/questions use the github or ping/DM @cursedsliver on discord.</small>
 
     <script src="versionList.js" defer></script>
     <script src="main.js" defer></script>

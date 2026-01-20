@@ -20,6 +20,7 @@ function importSave(saveText) {
     const errorEl = l('errorImporting');
     errorEl.style.display = 'none';
     saveText = unescape(saveText);
+    l('convertSuccess').innerText = '';
     try {
         if (!saveText || !saveText.trim()) { throw new Error('No save provided'); }
         
@@ -27,8 +28,6 @@ function importSave(saveText) {
         const decoded = b64_to_utf8(b64);
         const version = decoded.split('||')[0];
         if (!version) { throw new Error('Invalid save'); }
-        l('quickConvert').style.display = 'none';
-        if (version == WEB_VERSION) { l('quickConvert').style.display = ''; }
         l('curVersion').textContent = 'Current version: v' + version;
         
         const select = l('versionSelect');
@@ -40,12 +39,42 @@ function importSave(saveText) {
         save = decoded;
         saveVer = version;
 
+        generateQuickConvertButtons(parseFloat(version));
+
         l('results').style.display = 'block';
     } catch (err) {
         errorEl.style.display = 'block';
         errorEl.textContent = 'Error importing save: ' + (err.message || err);
         l('results').style.display = 'none';
     }
+}
+
+function generateQuickConvertButtons(version) {
+    l('quickConverts').innerHTML = '';
+    if (!PLATFORMS_VERSION_LIST_REVERSE_MAP[(version.toFixed(3)).toString()]) { return; }
+
+    let str = '';
+
+    const sortedList = Object.keys(PLATFORMS_VERSION_LIST_REVERSE_MAP).sort((a, b) => Number(a) - Number(b));
+    for (let i = sortedList.indexOf(version.toFixed(3)) - 1; i >= 0; i--) { 
+        const verStr = sortedList[i];
+        const applicableVersions = PLATFORMS_VERSION_LIST_REVERSE_MAP[sortedList[i]];
+        
+        if (applicableVersions.length > 2) { 
+            str += '<button onclick="exportSave('+verStr+')">' + 'Quick convert to v' + verStr + ' (multiple platforms)</button>';
+        } else if (applicableVersions.length == 2) {
+            str += '<button onclick="exportSave('+verStr+')">' + 'Quick convert to '+PLATFORMS_VERSION_NAMES[applicableVersions[0]]+' and '+PLATFORMS_VERSION_NAMES[applicableVersions[1]]+' (v'+verStr+')</button>';
+        } else if (applicableVersions.length == 1) {
+            str += '<button onclick="exportSave('+verStr+')">' + 'Quick convert to '+PLATFORMS_VERSION_NAMES[applicableVersions[0]]+' (v'+verStr+')</button>';
+        }
+        str += '<br>';
+    }
+
+    if (!str) { return; }
+
+    str = str.slice(str, str.length - ('<br>').length);
+    
+    l('quickConverts').innerHTML = str;
 }
 
 function exportSave(toVersion) {
@@ -76,6 +105,3 @@ function exportSave(toVersion) {
 function exportSaveFromVersionSelect() {
     exportSave(l('versionSelect').value);
 }
-
-l('webVer').textContent = 'v' + WEB_VERSION;
-l('steamVer').textContent = 'v' + STEAM_VERSION;
