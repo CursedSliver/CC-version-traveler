@@ -13,6 +13,17 @@ function utf8_to_b64(str) {
 	catch(err)
 	{return '';}
 }
+function oxfordsJoin(arr, func) {
+    if (!arr) return '';
+    if (!Array.isArray(arr)) return String(arr);
+    const items = arr.map(i => String(i));
+    const len = items.length;
+    func = func ?? (s => s);
+    if (len === 0) return '';
+    if (len === 1) return func(items[0]);
+    if (len === 2) return func(items[0]) + ' and ' + func(items[1]);
+    return items.slice(0, -1).join(', ') + ', and ' + func(items[len - 1]);
+}
 
 let save = '';
 let saveVer = 0;
@@ -60,13 +71,7 @@ function generateQuickConvertButtons(version) {
         const verStr = sortedList[i];
         const applicableVersions = PLATFORMS_VERSION_LIST_REVERSE_MAP[sortedList[i]];
         
-        if (applicableVersions.length > 2) { 
-            str += '<button onclick="exportSave('+verStr+')">' + 'Quick convert to v' + verStr + ' (multiple platforms)</button>';
-        } else if (applicableVersions.length == 2) {
-            str += '<button onclick="exportSave('+verStr+')">' + 'Quick convert to '+PLATFORMS_VERSION_NAMES[applicableVersions[0]]+' and '+PLATFORMS_VERSION_NAMES[applicableVersions[1]]+' (v'+verStr+')</button>';
-        } else if (applicableVersions.length == 1) {
-            str += '<button onclick="exportSave('+verStr+')">' + 'Quick convert to '+PLATFORMS_VERSION_NAMES[applicableVersions[0]]+' (v'+verStr+')</button>';
-        }
+        str += '<button onclick="exportSave('+verStr+')">' + 'Quick convert to '+oxfordsJoin(applicableVersions, s => PLATFORMS_VERSION_NAMES[s])+' (v'+verStr+')</button>';
         str += '<br>';
     }
 
