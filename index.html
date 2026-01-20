@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CC Version Traveler</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <h1>CC version traveler</h1>
+    <div id="importSave">
+        <h3>Input save below to change its game version.</h3>
+        <textarea id="importSaveTextArea">
+
+        </textarea>
+        <b><div id="errorImporting" class="errorText" style="display: none;"></div></b>
+        <br>
+        <button id="importSaveConfirm" onclick="importSave(l('importSaveTextArea').value)">
+            Import save
+        </button>
+        
+    </div>
+    <div id="results" style="display: none;">
+        <h3>Save data:</h3>
+        <div id="curVersion">
+            Current version: 
+        </div>
+        <span>Choose version: </span>
+        <select id="versionSelect"></select>
+        <button id="confirmConvert" onclick="exportSaveFromVersionSelect()">Convert version</button>
+        <button id="quickConvert" onclick="exportSave(2.053)" style="display: none;">
+            Convert web (<span id="webVer"></span>) to steam (<span id="steamVer"></span>)
+        </button>
+        <br>
+        <br>
+        <div id="convertSuccess"></div>
+        <br>
+        <b><div id="errorExporting" class="errorText" style="display: none;"></div></b>
+        <textarea readonly id="outputField"></textarea>
+        <br>
+    </div>
+
+    <p><b>Warning: does not automatically convert save data schemes.<br>Changing version back too much may lead to unknown bugs!</b></p>
+
+    <script src="versionList.js" defer></script>
+    <script src="main.js" defer></script>
+</body>
+</html>
