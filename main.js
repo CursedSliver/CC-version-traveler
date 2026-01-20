@@ -40,13 +40,11 @@ function importSave(saveText) {
         const version = decoded.split('||')[0];
         if (!version) { throw new Error('Invalid save'); }
         l('curVersion').textContent = 'Current version: v' + version + (PLATFORMS_VERSION_LIST_REVERSE_MAP[version]?(' ('+oxfordsJoin(PLATFORMS_VERSION_LIST_REVERSE_MAP[version], s => PLATFORMS_VERSION_NAMES[s])+')'):'');
-        
-        const select = l('versionSelect');
-        let selectStr = ''
-        ALL_VERSIONS.forEach(v => {
-            selectStr += '<option value="'+v+'"'+((v == version)?' selected':'')+'>' + v + '</option>';
-        });
-        select.innerHTML = selectStr;
+    
+        if (l('vs'+parseFloat(version).toFixed(3))) {
+            l('vs'+parseFloat(version).toFixed(3)).selected = true;
+            l('versionSelect').value = parseFloat(version).toFixed(3);
+        }
         save = decoded;
         saveVer = version;
 
@@ -110,3 +108,10 @@ function exportSave(toVersion) {
 function exportSaveFromVersionSelect() {
     exportSave(l('versionSelect').value);
 }
+
+const select = l('versionSelect');
+let selectStr = '';
+ALL_VERSIONS.forEach(v => {
+    selectStr += '<option value="'+v.toFixed(3)+'"'+' id="vs'+v.toFixed(3)+'">' + v + ((v <= 2.048)?' (unsafe)':'') + '</option>';
+});
+select.innerHTML = selectStr;
