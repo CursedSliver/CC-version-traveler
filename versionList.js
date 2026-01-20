@@ -21,6 +21,7 @@ const ALL_VERSIONS = [
 
 const PLATFORMS_VERSION_LIST = {
     'WEB': 2.058,
+    'BETA': 2.058,
     'STEAM': 2.053,
     'CMG': 2.056
 };
@@ -32,5 +33,6 @@ const PLATFORMS_VERSION_LIST_REVERSE_MAP = Object.entries(PLATFORMS_VERSION_LIST
 const PLATFORMS_VERSION_NAMES = {
     'STEAM': 'Steam',
     'WEB': 'Web',
-    'CMG': 'Coolmathgames'
+    'CMG': 'Coolmathgames',
+    'BETA': 'Web Beta'
 }
