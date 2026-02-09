@@ -28,6 +28,7 @@ function oxfordsJoin(arr, func) {
 let save = '';
 let saveVer = 0;
 function importSave(saveText) {
+	saveText = saveText.trim();
     const errorEl = l('errorImporting');
     errorEl.style.display = 'none';
     saveText = unescape(saveText);
